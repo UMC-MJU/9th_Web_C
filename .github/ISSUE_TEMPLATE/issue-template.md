@@ -2,7 +2,7 @@
 name: ISSUE TEMPLATE
 about: 작업할 내용을 작성해 주세요.
 title: '[DEV] 이슈 제목'
-labels: 'Bug\U0001F6A8, Feat\U0001F917, Refactor\U0001F6E0️'
+labels: 'Bug🚨, Feat🤗, Refactor🛠️'
 assignees: ''
 
 ---
