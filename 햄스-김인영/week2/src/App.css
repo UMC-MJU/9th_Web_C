@@ -1,0 +1,77 @@
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body{
+  font-family: sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: aliceblue;
+}
+.todo-container{
+  background-color: white;
+  width: 300px;
+  text-align: center;
+  padding: 30px;
+  border-radius: 20px;
+}
+.todo-container__header{
+  margin-bottom: 15px;
+  font-size: 20px;
+}
+.todo-container__form{
+  display: flex;
+  height: 30px;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+.todo-container__input{
+  flex: 1; /*플렉스 너비를 다 차지한다*/
+  padding: 6px;
+  border: 0.5px solid #757575;
+  border-radius: 5px;
+}
+.todo-container__button{
+  font-size: 13px;
+  padding: 4px;
+  cursor: pointer;
+}
+.render-container{
+  display: flex;
+  justify-content: space-between;
+}
+.render-container__section{
+  width: 100%;
+  text-align: left; /*유무 차이 알고싶음*/
+}
+.render-container__title{
+  font-size: 10px;
+  margin-bottom: 10px;
+
+  display: flex;
+  justify-content: center; /*유무 차이 알고싶음*/
+}
+.render-container__list{
+  list-style: none;
+}
+.render-container__item{
+  font-size: 9px;
+  border: 0.5px solid #909090;
+  border-radius: 5px;
+  padding: 4px;
+  margin: 3px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.render-container__item-button{
+  border: none;
+  font-size: 8px;
+  padding: 3px 5px;
+  border-radius: 3px;
+  color: white;
+}
