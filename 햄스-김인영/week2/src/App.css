@@ -12,10 +12,11 @@ body{
   background-color: aliceblue;
 }
 .todo-container{
+  position: relative;
   background-color: white;
   width: 300px;
   text-align: center;
-  padding: 30px;
+  padding: 40px 30px;
   border-radius: 20px;
 }
 .todo-container__header{
@@ -26,18 +27,21 @@ body{
   display: flex;
   height: 30px;
   gap: 10px;
-  margin-bottom: 15px;
+  margin-bottom: 25px;
 }
 .todo-container__input{
   flex: 1; /*플렉스 너비를 다 차지한다*/
-  padding: 6px;
+  padding: 3px 10px;
   border: 0.5px solid #757575;
   border-radius: 5px;
+  font-size: 12px;
 }
 .todo-container__button{
   font-size: 13px;
-  padding: 4px;
+  padding: 4px 10px;
   cursor: pointer;
+  background-color: #e8e8e8;
+  border-radius: 10%;
 }
 .render-container{
   display: flex;

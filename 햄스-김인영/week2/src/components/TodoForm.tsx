@@ -1,9 +1,7 @@
-import React, { useState } from 'react'
 import { useTodo } from '../context/TodoContext';
 
 export const TodoForm = () => {
-    const [input, setInput] = useState('');
-    const {addTodo} = useTodo();
+    const {input, setInput, addTodo} = useTodo();
 
     //텍스트 입력
     const inputText = (e: React.ChangeEvent<HTMLInputElement>) => {

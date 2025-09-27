@@ -8,6 +8,7 @@ interface Todo {
 
 interface TodoContextInterface {
   input: string;
+  setInput: (value:string) => void;
   todos: Todo[];
   doneTasks: Todo[];
   completeTodo: (id: number) => void;
@@ -49,7 +50,7 @@ export const TodoProvider = ({children}: PropsWithChildren) => {
 
   return (
   <TodoContext.Provider
-    value={{ todos, doneTasks, input, addTodo, completeTodo, deleteTodo }}>
+    value={{ todos, doneTasks, input, setInput, addTodo, completeTodo, deleteTodo }}>
     {children}
   </TodoContext.Provider>
   )
