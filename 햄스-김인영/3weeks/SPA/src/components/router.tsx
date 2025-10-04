@@ -40,7 +40,8 @@ export const Route = ({component: Component}: RouteProps) => {
 const getCurrentPath = () => {
   return window.location.pathname; //pathname : url 도메인 뒷부분만 가져옴
 }
-const useCurrentPath = () => {
+//브라우저 주소가 바뀌면 자동으로 알려주는 함수
+const useCurrentPath = () => { 
   const [currentPath, setCurrentPath] = useState(getCurrentPath());
 
   useEffect(() => {
