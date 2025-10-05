@@ -11,7 +11,7 @@ export default function Moviecard({movie} : MovieCardProps) {
     const navigate = useNavigate();
     return(
     <div
-        onClick={():void | Promise<void> => navigate(`/movies/${movie.id}`)}
+        onClick={():void | Promise<void> => navigate(`/movie/${movie.id}`)}
         className='relative rounded-xl shadow-lg overflow-hidden cursor-pointer
         w-44 transition-transform duration-500 hover:scale-105' 
         onMouseEnter={() : void => setIsHovered(true)}
