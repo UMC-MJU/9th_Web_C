@@ -70,3 +70,41 @@ export type MovieDetails = {
   vote_average: number;
   vote_count: number;
 };
+
+export interface Cast {
+  adult: boolean;
+  cast_id: number;
+  character: string;
+  credit_id: string;
+  gender: number;
+  id: number;
+  known_for_department: string;
+  name: string;
+  order: number;
+  original_name: string;
+  popularity: number;
+  profile_path: string | null; // 프로필 사진이 없을 경우를 고려해 null 타입을 추가
+}
+
+export interface Crew {
+  adult: boolean;
+  credit_id: string;
+  department: string;
+  gender: number;
+  id: number;
+  job: string;
+  known_for_department: string;
+  name: string;
+  original_name: string;
+  popularity: number;
+  profile_path: string | null;
+}
+/*
+
+export type MovieCredits = {
+  id :number;
+  cast : Cast[];
+  crew : Crew[];
+
+};
+*/

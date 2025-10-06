@@ -3,24 +3,36 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { LoadingSpinner } from "../components/LoadingSpinner";
 import { DetailCard } from "../components/DetailCard";
-import type { MovieDetails } from "../types/movie";
+import type { MovieCredits, MovieDetails } from "../types/movie";
 
 const MovieDetailPage = () => {
   const { movieId } = useParams<{ movieId: string }>();
   const [isError, setIsError] = useState(false);
   const [isPending, setIsPending] = useState(false);
   const [detailData, setDetailData] = useState<MovieDetails>();
+  const [creditsData, setCreditsData] = useState<MovieCredits>();
 
   useEffect(() => {
     const fetchDetail = async () => {
       setIsPending(true);
       try {
-        const { data } = await axios.get(`https://api.themoviedb.org/3/movie/${movieId}?language=en-US`, {
+        const { data: dataDetail } = await axios.get(`https://api.themoviedb.org/3/movie/${movieId}?language=ko-Ko`, {
           headers: {
             Authorization: `Bearer ${import.meta.env.VITE_TMDB_KEY}`,
           },
         });
-        setDetailData(data);
+        const { data: dataCredit } = await axios.get(
+          `https://api.themoviedb.org/3/movie/${movieId}/credits?language=ko-KO`,
+          {
+            headers: {
+              Authorization: `Bearer ${import.meta.env.VITE_TMDB_KEY}`,
+            },
+          }
+        );
+
+        console.log(dataCredit);
+        setDetailData(dataDetail);
+        setCreditsData(dataCredit);
         setIsPending(false);
       } catch {
         setIsError(true);
@@ -47,9 +59,9 @@ const MovieDetailPage = () => {
           <LoadingSpinner />
         </div>
       )}
-      {!isPending && detailData && (
+      {!isPending && detailData && creditsData && (
         <div>
-          <DetailCard detail={detailData}></DetailCard>
+          <DetailCard detail={detailData} credits={creditsData}></DetailCard>
         </div>
       )}
     </div>
