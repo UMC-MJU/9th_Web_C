@@ -1,42 +1,14 @@
-import { useEffect, useState } from "react"
-import type { Movie, MovieResponse } from "../types/movies";
-import axios from "axios";
+import { useState } from "react"
 import { MovieCard } from "../components/MovieCard";
 import { LoadingSpinner } from "../components/LoadingSpinner";
 import { useParams } from "react-router-dom";
+import { useMoviePage } from "../hooks/useMoviePage";
 
 export const MoviesPage = (): React.ReactElement => {
-  const [movies, setMovies] = useState<Movie[]>([]);
-
-  const [isLoading, setIsLoading] = useState(false);
-  const [isError, setIsError] = useState(false);
   const [page, setPage] = useState(1);
+  const { category } = useParams<{ category: string }>();
 
-  const {category} = useParams<{category: string}>();
-
-
-  useEffect(() => {
-    const fetchMovies = async () => {
-      setIsLoading(true);
-      try {
-        const { data } = await axios.get<MovieResponse>(
-          `https://api.themoviedb.org/3/movie/${category}?page=${page}`,
-          {
-            headers: {
-              Authorization: `Bearer ${import.meta.env.TMDB_API_KEY}`,
-            },
-          }
-        )
-        setMovies(data.results);
-        setIsError(false);
-      } catch {
-        setIsError(true);
-      } finally {
-        setIsLoading(false);
-      }
-    }
-    fetchMovies();
-  }, [page, category]);
+  const { movies, isLoading, isError } = useMoviePage(category, page);
 
 
   console.log(movies);

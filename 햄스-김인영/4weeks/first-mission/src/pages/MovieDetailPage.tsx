@@ -1,50 +1,12 @@
-import axios from "axios";
-import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom"
-import type { Credits, MovieDetail } from "../types/movies";
 import { LoadingSpinner } from "../components/LoadingSpinner";
 import { DetailCard } from "../components/DetailCard";
+import { useMovieDetail } from "../hooks/useMovieDetail";
 
 export const MovieDetailPage = () => {
   const { movieId } = useParams<{ movieId: string }>();
-  const [isError, setIsError] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const [detail, setDetail] = useState<MovieDetail>();
-  const [credit, setCredit] = useState<Credits>();
+  const { detail, credit, isLoading, isError } = useMovieDetail(movieId);
 
-  useEffect(() => {
-    const fetchMovieDetail = async () => {
-      setIsLoading(true);
-      try {
-        const [detailData, creditData] = await Promise.all([
-          axios.get<MovieDetail>(
-            `https://api.themoviedb.org/3/movie/${movieId}?language=ko-KR`,
-            {
-              headers: {
-                Authorization: `Bearer ${import.meta.env.TMDB_API_KEY}`,
-              },
-            }
-          ),
-          axios.get<Credits>(
-            `https://api.themoviedb.org/3/movie/${movieId}/credits?language=ko-KR`,
-            {
-              headers: {
-                Authorization: `Bearer ${import.meta.env.TMDB_API_KEY}`,
-              },
-            }
-          )
-        ]);
-          setDetail(detailData.data);
-          setCredit(creditData.data);
-      } catch (err) {
-        console.log(err);
-        setIsError(true);
-      } finally {
-        setIsLoading(false);
-      }
-    }
-    fetchMovieDetail();
-  }, [movieId]);
 
   console.log(detail);
   console.log(credit);
