@@ -1,0 +1,21 @@
+.header-nav {
+  padding: 15px 20px;
+  background-color: #f8f8f8;
+  border-bottom: 1px solid #ddd;
+}
+
+.nav-link {
+  margin-right: 15px;
+  text-decoration: none;
+  color: #337ab7;
+  font-weight: bold;
+  transition: color 0.2s;
+}
+
+.nav-link:hover {
+  color: #1f507b;
+}
+
+.page-content {
+  padding: 20px;
+}
