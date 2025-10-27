@@ -1,33 +1,61 @@
-import { useState } from "react"
-import type { loginForm } from "../types/forms";
+import type { UserSigninInformation } from "../utils/validate"
+import { validateSignin } from "../utils/validate"
+import { useForm } from "../hooks/useForm"
 
 export const LoginPage = () => {
-  const [formContents, setFormContents] = useState<loginForm>({
-    email: "",
-    password: "",
-  });
+  const { values, errors, touched, getInputProps } = useForm<UserSigninInformation>({
+    initialValue: {
+      email: "",
+      password: "",
+    },
+    validate: validateSignin,
+  }
+)
+
+
+  const handleSubmit = () => {
+    console.log(values);
+  };
+
+  //오류가 있거나 입력값이 없으면 버튼 비활성화
+  const isDisabled = Object.values(errors || {}).some((error) => error.length > 0) ||
+  Object.values(values).some((value) => value === "");
 
   return (
     <div className="flex justify-center items-center flex-grow bg-gray-50">
-      <div className="flex flex-col w-70 gap-4">
+      <div 
+      className="flex flex-col w-70 gap-4">
         <h2 className="text-2xl font-semibold text-center text-gray-600 mb-3">
           로그인
         </h2>
         <input
+        {...getInputProps("email")}
         name="email"
-        className="border border-gray-500 rounded-lg focus:outline-none p-2 w-full text-sm text-gray-500 bg-white"
+        className={`border border-gray-400 rounded-lg focus:outline-none p-2 w-full text-sm text-gray-500 bg-white
+          ${errors?.email && touched?.email ? "border-red-400 bg-red-200" : "border-gray-400"}`}
         type="email"
-        placeholder="이메일을 입력해 주세요."
+        placeholder="email"
         />
+        {errors?.email && touched?.email && (
+          <div className="text-red-400 text-[13px]">{errors.email}</div>
+        )}
         <input
+        {...getInputProps("password")}
         name="password"
-        className="border border-gray-500 rounded-lg focus:outline-none p-2 w-full text-sm text-gray-500 bg-white"
+        className={`border border-gray-400 rounded-lg focus:outline-none p-2 w-full text-sm text-gray-500 bg-white
+          ${errors?.password && touched?.password ? "border-red-400 bg-red-200" : "border-gray-400"}`}
         type="password"
-        placeholder="비밀번호를 입력해 주세요."
+        placeholder="password"
         />
+        {errors?.password && touched?.password && (
+          <div className="text-red-400 text-[13px]">{errors.password}</div>
+        )}
         <button
-        className="bg-blue-300 rounded-lg focus:outline-none p-3 w-full text-sm text-white font-semibold"
+        className="bg-blue-300 rounded-lg focus:outline-none p-3 w-full text-sm text-white font-semibold
+        disabled:bg-gray-400 disabled:cursor-not-allowed"
         type="submit"
+        disabled={isDisabled}
+        onClick={handleSubmit}
         >
           로그인
         </button>
