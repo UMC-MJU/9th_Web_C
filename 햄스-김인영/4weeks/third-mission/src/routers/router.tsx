@@ -1,6 +1,7 @@
 import { createBrowserRouter } from "react-router-dom";
 import { RootLayout } from "../layout/RootLayout";
 import { LoginPage } from "../pages/LoginPage";
+import SignUpPage from "../pages/SignUpPage";
 
 const NotFound = () => (
   <main className="p-10">
@@ -18,6 +19,10 @@ const router = createBrowserRouter([
       {
         path: '/login',
         element: <LoginPage />,
+      },
+      {
+        path: '/signup',
+        element: <SignUpPage />,
       }
     ]
   },

@@ -22,15 +22,15 @@ export const LoginPage = () => {
     Object.values(values).some((value) => value === "");
 
   return (
-    <div className="flex justify-center items-center flex-grow bg-gray-50">
+    <div className="flex justify-center items-center grow bg-gray-50">
       <div className="flex flex-col w-70 gap-3">
         <h2 className="text-2xl font-semibold text-center text-gray-600">
           로그인
         </h2>
         <div className="flex items-center justify-center w-full my-4">
-          <div className="flex-grow border-t border-gray-400"></div>
+          <div className="grow border-t border-gray-400"></div>
           <span className="mx-3 text-gray-400 text-sm font-medium">OR</span>
-          <div className="flex-grow border-t border-gray-400"></div>
+          <div className="grow border-t border-gray-400"></div>
         </div>
         <input
           {...getInputProps("email")}
