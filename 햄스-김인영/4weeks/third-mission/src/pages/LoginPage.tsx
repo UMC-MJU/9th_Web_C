@@ -1,6 +1,7 @@
 import type { UserSigninInformation } from "../utils/validate"
 import { validateSignin } from "../utils/validate"
 import { useForm } from "../hooks/useForm"
+import { postSignin } from "../apis/auth"
 
 export const LoginPage = () => {
   const { values, errors, touched, getInputProps } = useForm<UserSigninInformation>({
@@ -13,8 +14,10 @@ export const LoginPage = () => {
   )
 
 
-  const handleSubmit = () => {
-    console.log(values);
+  const handleSubmit = async () => {
+    const response = await postSignin(values);
+    localStorage.setItem('accessToken', response.data.accessToken);
+    console.log(response);
   };
 
   //오류가 있거나 입력값이 없으면 버튼 비활성화

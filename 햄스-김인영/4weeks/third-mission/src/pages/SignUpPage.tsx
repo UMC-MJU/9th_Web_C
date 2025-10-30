@@ -5,6 +5,8 @@ import { InputEmail } from "../components/InputEmail";
 import { InputPassword } from "../components/InputPassword";
 import { InputName } from "../components/InputName";
 import { useState } from "react";
+import { postSignup } from "../apis/auth";
+import { useNavigate } from "react-router-dom";
 
 /*유효성 검사 스키마*/
 const schema = z.object({
@@ -31,6 +33,7 @@ const schema = z.object({
 export type FormFields = z.infer<typeof  schema>;
 
 const SignUpPage = () => {
+  const navigate = useNavigate();
   const [state, setState] = useState<string>("email");
 
   /*useForm의 method 구조분해할당*/
@@ -48,9 +51,18 @@ const SignUpPage = () => {
     mode: "onChange",
   })
 
-  const onSubmit:SubmitHandler<FormFields> = (data) => {
+  const onSubmit:SubmitHandler<FormFields> = async (data) => {
     const{passwordCheck, ...rest} = data;
-    console.log(rest);
+    
+    try {
+      const response = await postSignup(rest);
+      console.log("회원가입 성공:", response);
+
+      navigate("/");
+    } catch (error) {
+      console.error(error);
+      alert("회원가입에 실패했습니다.");
+    }
   }
 
   return (
