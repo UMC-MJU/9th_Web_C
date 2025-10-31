@@ -1,9 +1,14 @@
 import type { UserSigninInformation } from "../utils/validate"
 import { validateSignin } from "../utils/validate"
 import { useForm } from "../hooks/useForm"
-import { postSignin } from "../apis/auth"
+import { useContext } from "react"
+import { AuthContext } from "../context/AuthContext"
+import { useNavigate } from "react-router-dom"
 
 export const LoginPage = () => {
+  const {login} = useContext(AuthContext);
+  const navigate = useNavigate();
+
   const { values, errors, touched, getInputProps } = useForm<UserSigninInformation>({
     initialValue: {
       email: "",
@@ -14,10 +19,16 @@ export const LoginPage = () => {
   )
 
 
-  const handleSubmit = async () => {
-    const response = await postSignin(values);
-    localStorage.setItem('accessToken', response.data.accessToken);
-    console.log(response);
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault(); // 새로고침 방지
+    try {
+      await login(values);
+      console.log("로그인 성공:", values);
+      alert("로그인 성공!");
+      navigate("/");
+    } catch (error) {
+      console.error("로그인 실패:", error);
+    }
   };
 
   //오류가 있거나 입력값이 없으면 버튼 비활성화
@@ -26,7 +37,7 @@ export const LoginPage = () => {
 
   return (
     <div className="flex justify-center items-center grow bg-gray-50">
-      <div className="flex flex-col w-70 gap-3">
+      <form className="flex flex-col w-70 gap-3">
         <h2 className="text-2xl font-semibold text-center text-gray-600">
           로그인
         </h2>
@@ -66,7 +77,7 @@ export const LoginPage = () => {
         >
           로그인
         </button>
-      </div>
+      </form>
     </div>
   )
 }

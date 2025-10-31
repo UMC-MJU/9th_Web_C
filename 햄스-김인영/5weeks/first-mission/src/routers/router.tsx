@@ -2,6 +2,8 @@ import { createBrowserRouter } from "react-router-dom";
 import { RootLayout } from "../layout/RootLayout";
 import { LoginPage } from "../pages/LoginPage";
 import SignUpPage from "../pages/SignUpPage";
+import { MyPage } from "../pages/MyPage";
+import { ProtectedLayout } from "../layout/ProtectedLayout";
 
 const NotFound = () => (
   <main className="p-10">
@@ -23,7 +25,16 @@ const router = createBrowserRouter([
       {
         path: '/signup',
         element: <SignUpPage />,
-      }
+      },
+      {
+        element: <ProtectedLayout />,
+        children: [
+          {
+            path: "/mypage",
+            element: <MyPage />,
+          },
+        ],
+      },
     ]
   },
   {
