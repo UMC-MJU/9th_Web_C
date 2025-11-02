@@ -4,6 +4,7 @@ import { useForm } from "../hooks/useForm"
 import { useContext } from "react"
 import { AuthContext } from "../context/AuthContext"
 import { useNavigate } from "react-router-dom"
+import logo from '../assets/google-logo.svg'
 
 export const LoginPage = () => {
   const {login} = useContext(AuthContext);
@@ -31,6 +32,10 @@ export const LoginPage = () => {
     }
   };
 
+  const handleGoggleLogin = () => {
+    window.location.href = import.meta.env.VITE_SERVER_API_URL + "/v1/auth/google/login";
+  }
+
   //오류가 있거나 입력값이 없으면 버튼 비활성화
   const isDisabled = Object.values(errors || {}).some((error) => error.length > 0) ||
     Object.values(values).some((value) => value === "");
@@ -41,6 +46,18 @@ export const LoginPage = () => {
         <h2 className="text-2xl font-semibold text-center text-gray-600">
           로그인
         </h2>
+        <button
+          className="border-1 border-gray-500 rounded-lg focus:outline-none p-3 w-full text-sm text-gray-500 font-semibold mt-[15px]"
+          type="button"
+          onClick={handleGoggleLogin}
+        >
+          <div className="flex justify-center items-center gap-[10px]">
+            <img src={logo} className="w-[20px]"/>
+            <span>
+              구글 로그인
+            </span>
+          </div>
+        </button>
         <div className="flex items-center justify-center w-full my-4">
           <div className="grow border-t border-gray-400"></div>
           <span className="mx-3 text-gray-400 text-sm font-medium">OR</span>

@@ -4,6 +4,7 @@ import { LoginPage } from "../pages/LoginPage";
 import SignUpPage from "../pages/SignUpPage";
 import { MyPage } from "../pages/MyPage";
 import { ProtectedLayout } from "../layout/ProtectedLayout";
+import { GoogleLoginRedirectPage } from "../pages/GoogleLoginRedirectPage";
 
 const NotFound = () => (
   <main className="p-10">
@@ -35,6 +36,10 @@ const router = createBrowserRouter([
           },
         ],
       },
+      {
+        path: '/v1/auth/google/callback',
+        element: <GoogleLoginRedirectPage />,
+      }
     ]
   },
   {
