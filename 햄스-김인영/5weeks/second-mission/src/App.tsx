@@ -1,3 +1,4 @@
+import "./apis/axiosInstance";
 import './App.css'
 import {RouterProvider} from 'react-router-dom'
 import router from './routers/router.tsx'
