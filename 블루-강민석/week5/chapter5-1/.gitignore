@@ -1,0 +1,36 @@
+# Node.js
+node_modules/
+dist/
+build/
+
+# 환경 설정
+.env
+.env.* # 예: .env.local, .env.production
+
+# OS 관련
+.DS_Store
+Thumbs.db
+
+# Vite 캐시
+.vite/
+
+# VSCode 설정 (개인 설정 제외하고 싶다면)
+.vscode/
+
+# 로그 파일
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*
+
+# Optional: IDE 관련
+.idea/
+*.iml
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+
+# Optional: coverage & test
+coverage/
+*.test.ts
+.env
