@@ -3,12 +3,15 @@ import { validateSignin } from "../utils/validate"
 import { useForm } from "../hooks/useForm"
 import { useContext } from "react"
 import { AuthContext } from "../context/AuthContext"
-import { useNavigate } from "react-router-dom"
+import { useLocation, useNavigate } from "react-router-dom"
 import logo from '../assets/google-logo.svg'
 
 export const LoginPage = () => {
   const {login} = useContext(AuthContext);
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const from = (location.state as { from?: string })?.from || "/";
 
   const { values, errors, touched, getInputProps } = useForm<UserSigninInformation>({
     initialValue: {
@@ -26,7 +29,7 @@ export const LoginPage = () => {
       await login(values);
       console.log("로그인 성공:", values);
       alert("로그인 성공!");
-      navigate("/");
+      navigate(from, { replace: true });
     } catch (error) {
       console.error("로그인 실패:", error);
     }

@@ -1,7 +1,8 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useSearchParams } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Sidebar } from "./Sidebar";
+import { getMyInfo } from "../apis/auth";
 
 type NavbarProps = {
   onToggleSidebar: () => void,
@@ -10,6 +11,21 @@ type NavbarProps = {
 
 export const Navbar = ({ onToggleSidebar, isSidebarOpen } : NavbarProps) => {
   const { accessToken } = useContext(AuthContext);
+  const [userName, setUserName] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        if (accessToken) {
+          const user = await getMyInfo();
+          setUserName(user.data.name);
+        }
+      } catch (error) {
+        console.error("내 정보 불러오기 실패:", error);
+      }
+    };
+    fetchUser();
+  }, [accessToken]);
 
   return (
     <div className="relative">
@@ -22,7 +38,7 @@ export const Navbar = ({ onToggleSidebar, isSidebarOpen } : NavbarProps) => {
         </div>
         {accessToken ? (
           <div className="flex items-center justify-center gap-4">
-            <p className="font-semibold text-[15px]">님 반갑습니다.</p>
+            <p className="font-semibold text-[15px]">{userName}님 반갑습니다.</p>
             <NavLink
               className="flex items-center justify-center w-20 h-8 bg-gray-600 
               rounded-2xl text-white font-semibold text-sm"
