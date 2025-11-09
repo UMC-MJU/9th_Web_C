@@ -41,16 +41,16 @@ const router = createBrowserRouter([
             path: "/mypage",
             element: <MyPage />,
           },
+          {
+            path: '/lp/:lpid',
+            element: <LpDetailPage />,
+          }
         ],
       },
       {
         path: '/v1/auth/google/callback',
         element: <GoogleLoginRedirectPage />,
       },
-      {
-        path: '/lp/:lpid',
-        element: <LpDetailPage />,
-      }
     ]
   },
   {
