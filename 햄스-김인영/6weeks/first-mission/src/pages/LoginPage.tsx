@@ -41,7 +41,7 @@ export const LoginPage = () => {
     Object.values(values).some((value) => value === "");
 
   return (
-    <div className="flex justify-center items-center grow bg-gray-50">
+    <div className="flex justify-center items-center bg-gray-50">
       <form className="flex flex-col w-70 gap-3">
         <h2 className="text-2xl font-semibold text-center text-gray-600">
           로그인

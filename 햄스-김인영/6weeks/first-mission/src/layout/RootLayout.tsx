@@ -12,7 +12,7 @@ export const RootLayout = () => {
       <Navbar onToggleSidebar={handleToggleSidebar} isSidebarOpen={isSidebarOpen} />
       <div className="flex flex-1 relative">
         <main
-          className={`flex-1 transition-all duration-300 ease-in-out ${isSidebarOpen ?
+          className={`flex-1 flex justify-center transition-all duration-300 ease-in-out ${isSidebarOpen ?
              "md:ml-[200px]" : "ml-0"
             }`}
         >

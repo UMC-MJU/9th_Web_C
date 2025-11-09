@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import useGetLpList from "../hooks/queries/useGetLpList";
 import { LoadingSpinner } from "../components/LoadingSpinner";
+import { IsError } from "../components/isError";
 
 export default function MainPage() {
   const [order, setOrder] = useState<"newest" | "oldest">("newest");
@@ -24,16 +25,8 @@ export default function MainPage() {
   }
   if (isError || !data) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-[60vh] gap-4">
-        <p className="text-gray-600 font-medium">목록을 불러오지 못했습니다.</p>
-        <button
-          onClick={() => refetch()}
-          className="px-5 py-2 bg-blue-300 hover:bg-blue-400 text-white font-semibold rounded-lg shadow-md transition-all duration-300"
-        >
-          다시 시도하기
-        </button>
-      </div>
-    );
+      <IsError refetch={refetch} />
+    )
   }
 
   return (
@@ -65,7 +58,7 @@ export default function MainPage() {
           <div
             key={lp.id}
             className="relative w-[220px] h-[220px] cursor-pointer overflow-hidden shadow-md rounded-lg group 
-                 transform transition-transform duration-500 hover:scale-110"
+                 transform transition-transform duration-500 hover:scale-110 hover:z-50"
             onClick={() => navigate(`/lp/${lp.id}`)}
           >
             <img
