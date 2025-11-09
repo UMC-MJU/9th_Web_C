@@ -5,6 +5,8 @@ import SignUpPage from "../pages/SignUpPage";
 import { MyPage } from "../pages/MyPage";
 import { ProtectedLayout } from "../layout/ProtectedLayout";
 import { GoogleLoginRedirectPage } from "../pages/GoogleLoginRedirectPage";
+import MainPage from "../pages/MainPage";
+
 
 const NotFound = () => (
   <main className="p-10">
@@ -19,6 +21,10 @@ const router = createBrowserRouter([
     path: '/',
     element: <RootLayout />,
     children: [
+      {
+        index: true,
+        element: <MainPage />,
+      },
       {
         path: '/login',
         element: <LoginPage />,
