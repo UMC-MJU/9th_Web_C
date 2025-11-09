@@ -13,6 +13,8 @@ function useGetLpList({ cursor, search, order, limit }: PaginationDto) {
       limit,
     }),
     select: (res) => res.data.data,
+    staleTime: 1000 * 60 * 5,
+    gcTime: 1000 * 60 * 10,
   });
 }
 
