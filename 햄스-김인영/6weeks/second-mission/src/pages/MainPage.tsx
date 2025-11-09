@@ -1,17 +1,17 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import useGetLpList from "../hooks/queries/useGetLpList";
 import { LoadingSpinner } from "../components/LoadingSpinner";
-import { IsError } from "../components/isError";
+import { IsError } from "../components/IsError";
+import { LpCard } from "../components/LpCard/LpCard";
+import LpCardSkeletonList from "../components/LpCard/LpCardSkeletonList";
 
 export default function MainPage() {
   const [order, setOrder] = useState<"newest" | "oldest">("newest");
-  const navigate = useNavigate();
 
   const orderButton =
     order === "newest" ? "asc" : "desc";
 
-  const { data, isLoading, isError, refetch } = useGetLpList({
+  const { data, isLoading, isError, refetch, isFetching } = useGetLpList({
     cursor: 0,
     search: "",
     order: orderButton,
@@ -54,30 +54,8 @@ export default function MainPage() {
       </div>
 
       <div className="flex flex-wrap gap-2 justify-center mb-5r">
-        {data?.map((lp : any) => (
-          <div
-            key={lp.id}
-            className="relative w-[220px] h-[220px] cursor-pointer overflow-hidden shadow-md rounded-lg group 
-                 transform transition-transform duration-500 hover:scale-110 hover:z-50"
-            onClick={() => navigate(`/lp/${lp.id}`)}
-          >
-            <img
-              src={lp.thumbnail}
-              alt={lp.title}
-              className="w-full h-52 object-cover"
-            />
-
-            <div className="absolute inset-0 flex flex-col justify-end p-3 bg-black/0 group-hover:bg-black/40 transition-all duration-300">
-              <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                <h2 className="text-white font-semibold text-sm truncate">{lp.title}</h2>
-                <p className="flex justify-between text-gray-300 text-xs mt-1">
-                  {new Date(lp.createdAt).toLocaleDateString("ko-KR")}
-                  <span className="text-white">♡{lp.likes?.length || 0}</span>
-                </p>
-              </div>
-            </div>
-          </div>
-        ))}
+        {data?.map((lp : any) => <LpCard lp={lp}/>)}
+        {isFetching && <LpCardSkeletonList count={20} />}
       </div>
     </div>
   );
