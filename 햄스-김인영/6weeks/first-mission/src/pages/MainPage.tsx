@@ -10,7 +10,7 @@ export default function MainPage() {
   const orderButton =
     order === "newest" ? "asc" : "desc";
 
-  const { data, isLoading, isError } = useGetLpList({
+  const { data, isLoading, isError, refetch } = useGetLpList({
     cursor: 0,
     search: "",
     order: orderButton,
@@ -22,9 +22,17 @@ export default function MainPage() {
       <LoadingSpinner />
     );
   }
-  if (isError || data.length === 0) {
+  if (isError || !data) {
     return (
-      <div>목록 불러오기 실패</div>
+      <div className="flex flex-col items-center justify-center min-h-[60vh] gap-4">
+        <p className="text-gray-600 font-medium">목록을 불러오지 못했습니다.</p>
+        <button
+          onClick={() => refetch()}
+          className="px-5 py-2 bg-blue-300 hover:bg-blue-400 text-white font-semibold rounded-lg shadow-md transition-all duration-300"
+        >
+          다시 시도하기
+        </button>
+      </div>
     );
   }
 
