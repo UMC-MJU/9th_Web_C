@@ -6,6 +6,7 @@ import { MyPage } from "../pages/MyPage";
 import { ProtectedLayout } from "../layout/ProtectedLayout";
 import { GoogleLoginRedirectPage } from "../pages/GoogleLoginRedirectPage";
 import MainPage from "../pages/MainPage";
+import { LpDetailPage } from "../pages/LpDetailPage";
 
 
 const NotFound = () => (
@@ -45,6 +46,10 @@ const router = createBrowserRouter([
       {
         path: '/v1/auth/google/callback',
         element: <GoogleLoginRedirectPage />,
+      },
+      {
+        path: '/lp/:lpid',
+        element: <LpDetailPage />,
       }
     ]
   },
