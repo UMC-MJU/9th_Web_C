@@ -1,13 +1,15 @@
 import { NavLink } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import { Sidebar } from "./Sidebar";
 
-export const Navbar = () => {
-  const { accessToken } = useContext(AuthContext);
-  const [isOpen, setIsOpen] = useState<boolean>(false);
+type NavbarProps = {
+  onToggleSidebar: () => void,
+  isSidebarOpen: boolean,
+}
 
-  const onToggleSidebar = () => setIsOpen(prev => !prev);
+export const Navbar = ({ onToggleSidebar, isSidebarOpen } : NavbarProps) => {
+  const { accessToken } = useContext(AuthContext);
 
   return (
     <div className="relative">
@@ -50,8 +52,8 @@ export const Navbar = () => {
       </div>
       <div className="transition-all duration-300 ease-in-out
             md:translate-x-0 md:opacity-100
-            translate-x-[-100%] opacity-0">
-        <Sidebar isOpen={isOpen} onClose={() => setIsOpen(false)} />
+            -translate-x-full opacity-0">
+        <Sidebar isOpen={isSidebarOpen} onClose={onToggleSidebar} />
       </div>
     </div>
   )
