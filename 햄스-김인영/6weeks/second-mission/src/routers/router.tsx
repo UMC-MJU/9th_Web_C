@@ -7,6 +7,7 @@ import { ProtectedLayout } from "../layout/ProtectedLayout";
 import { GoogleLoginRedirectPage } from "../pages/GoogleLoginRedirectPage";
 import MainPage from "../pages/MainPage";
 import { LpDetailPage } from "../pages/LpDetailPage";
+import LpCommentList from "../components/Comments/LpCommentList";
 
 
 const NotFound = () => (
@@ -44,7 +45,11 @@ const router = createBrowserRouter([
           {
             path: '/lp/:lpid',
             element: <LpDetailPage />,
-          }
+          },
+          {
+            path: '/lp/:lpid/comment',
+            element: <LpCommentList />,
+          },
         ],
       },
       {

@@ -14,3 +14,13 @@ export const getLpDetail = async (lpid: number): Promise<LpDetail> => {
   const { data } = await axiosInstance.get(`/v1/lps/${lpid}`);
   return data.data;
 };
+
+export const getCommentList = async (
+  lpid: number,
+  params?: Record<string, any>
+) => {
+  const { data } = await axiosInstance.get(`/v1/lps/${lpid}/comments`, {
+    params,
+  });
+  return data;
+};

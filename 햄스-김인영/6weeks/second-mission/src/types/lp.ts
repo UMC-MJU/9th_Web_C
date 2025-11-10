@@ -54,3 +54,15 @@ export type Author = {
 export type LpDetail = Lp & {
   author: Author;
 };
+
+export type LpComment = CursorBasedResponse<{
+  data: {
+    id: number;
+    content: string;
+    lpId: number;
+    authorId: number;
+    createdAt: string;
+    updatedAt: string;
+    author : Author;
+  }
+}>

@@ -3,7 +3,7 @@ import { useGetLpDetail } from "../hooks/queries/useGetLpDetail";
 import { LoadingSpinner } from "../components/LoadingSpinner";
 import pencil from '../assets/pencil.png'
 import trash from '../assets/trash-can.png'
-import { IsError } from "../components/isError";
+import { IsError } from "../components/IsError";
 
 export const LpDetailPage = () => {
   const { lpid } = useParams<{ lpid: string }>();
