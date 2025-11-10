@@ -1,9 +1,9 @@
-import { useState } from "react";
-import useGetLpList from "../hooks/queries/useGetLpList";
+import { useEffect, useRef, useState } from "react";
 import { LoadingSpinner } from "../components/LoadingSpinner";
 import { IsError } from "../components/IsError";
 import { LpCard } from "../components/LpCard/LpCard";
 import LpCardSkeletonList from "../components/LpCard/LpCardSkeletonList";
+import useGetInfiniteLpList from "../hooks/queries/useGetInfiniteLpList";
 
 export default function MainPage() {
   const [order, setOrder] = useState<"newest" | "oldest">("newest");
@@ -11,16 +11,42 @@ export default function MainPage() {
   const orderButton =
     order === "newest" ? "asc" : "desc";
 
-  const { data, isLoading, isError, refetch, isFetching } = useGetLpList({
-    cursor: 0,
+  const {
+    data,
+    isLoading,
+    isError,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+    refetch,
+  } = useGetInfiniteLpList({
+    limit: 15,
     search: "",
     order: orderButton,
-    limit: 20,
   });
+
+  const sentinelRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    const sentinel = sentinelRef.current;
+    if (!sentinel) return;
+
+    const observer = new IntersectionObserver((entries) => {
+      const first = entries[0];
+      if (first.isIntersecting && hasNextPage && !isFetchingNextPage) {
+        fetchNextPage();
+      }
+    });
+
+    observer.observe(sentinel);
+    return () => observer.disconnect();
+  }, [fetchNextPage, hasNextPage, isFetchingNextPage]);
 
   if (isLoading) {
     return (
-      <LoadingSpinner />
+      <div className="h-full flex justify-center items-center">
+        <LoadingSpinner />
+      </div>
     );
   }
   if (isError || !data) {
@@ -28,6 +54,8 @@ export default function MainPage() {
       <IsError refetch={refetch} />
     )
   }
+
+  const lpList = data.pages.flatMap((page) => page.data.data);
 
   return (
     <div>
@@ -54,8 +82,21 @@ export default function MainPage() {
       </div>
 
       <div className="flex flex-wrap gap-2 justify-center mb-5r">
-        {data?.map((lp : any) => <LpCard lp={lp}/>)}
-        {isFetching && <LpCardSkeletonList count={20} />}
+        {lpList.map((lp: any) => <LpCard key={lp.id} lp={lp} />)}
+        {isFetchingNextPage && <LpCardSkeletonList count={5} />}
+      </div>
+
+      <div ref={sentinelRef} style={{ height: 1 }} />
+
+      {/* 로딩 / 더보기 상태 표시 */}
+      <div className="flex justify-center items-center h-16 text-gray-400 text-sm">
+        {isFetchingNextPage ? (
+          <p>로딩 중...</p>
+        ) : hasNextPage ? (
+          <p>스크롤을 내리면 더 불러와요...</p>
+        ) : (
+          <p>더 이상 게시물이 없습니다.</p>
+        )}
       </div>
     </div>
   );
