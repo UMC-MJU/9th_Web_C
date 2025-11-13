@@ -2,10 +2,12 @@ import { useRef, useEffect, useState } from "react";
 import useGetCommentList from "../../hooks/queries/useGetCommentList";
 import CommentSkeleton from "./CommentSkeleton";
 import { useParams } from "react-router-dom";
+import { usePostComment } from "../../hooks/queries/usePostComment";
 
 export default function LpCommentList() {
   const { lpid } = useParams<{ lpid: string }>();
   const numberId = Number(lpid);
+   const [commentText, setCommentText] = useState("");
 
   const [order, setOrder] = useState<"newest" | "oldest">("newest");
   const orderButton = order === "newest" ? "asc" : "desc";
@@ -22,7 +24,22 @@ export default function LpCommentList() {
     order: orderButton,
   });
 
+  //댓글 등록 useMutation
+  const { mutate: createComment } = usePostComment(numberId);
+
   const commentList = data?.pages.flatMap((p) => p.data.data) ?? [];
+
+  const handleSubmitComment = () => {
+    if (!commentText.trim()) {
+      alert("댓글 내용을 입력해주세요.");
+      return;
+    }
+    createComment({
+      lpId: numberId,
+      content: commentText.trim(),
+    });
+    setCommentText("");
+  };
 
   const sentinelRef = useRef<HTMLDivElement | null>(null);
 
@@ -39,7 +56,7 @@ export default function LpCommentList() {
   }, [fetchNextPage, hasNextPage, isFetchingNextPage, order]);
 
   return (
-    <div className="flex flex-col bg-gray-400 w-[700px] rounded-2xl p-6 mt-5">
+    <div className="flex flex-col bg-gray-500 w-[700px] rounded-2xl p-6 mt-5">
 
       {/* 정렬 버튼 */}
       <div className="flex justify-between gap-2 text-[12px] text-white font-semibold
@@ -50,7 +67,7 @@ export default function LpCommentList() {
             onClick={() => setOrder("oldest")}
             className={`px-2 py-1 rounded-xl mr-3 ${order === "oldest"
               ? "bg-blue-400 text-white"
-              : "bg-gray-600 text-white hover:bg-gray-600"
+              : "bg-gray-700 text-white hover:bg-gray-600"
               }`}
           >
             오래된순
@@ -70,10 +87,15 @@ export default function LpCommentList() {
       <div className="flex items-center w-[670px] gap-3 pr-3">
         <input
           type="text"
-          placeholder="댓글을 입력해 주세요."
-          className="flex-1 bg-gray-200 text-sm p-1 pl-2 rounded-md placeholder-gray-400 text-white outline-none"
+          value={commentText}
+          onChange={(e) => setCommentText(e.target.value)}
+        placeholder="댓글을 입력해 주세요."
+        className="flex-1 bg-gray-200 text-sm p-1 pl-2 rounded-md placeholder-gray-400 text-gray-600 outline-none"
         />
-        <button className="px-3 py-1 text-white bg-gray-600 rounded-md text-sm font-semibold hover:bg-gray-700">
+        <button
+          className="px-3 py-1 text-white bg-gray-700 rounded-md 
+        text-sm font-semibold hover:bg-gray-600"
+          onClick={handleSubmitComment}>
           작성
         </button>
       </div>
@@ -90,8 +112,8 @@ export default function LpCommentList() {
                 className="w-7 h-7 rounded-full border border-gray-600 object-cover mt-1.5"
               />
               <div className="flex flex-col">
-                <p className="text-sm font-semibold">{comment.author?.name}</p>
-                <p className="text-[13px] text-white">{comment.content}</p>
+                <p className="text-sm font-semibold text-white">{comment.author?.name}</p>
+                <p className="text-[13px] text-gray-100">{comment.content}</p>
               </div>
             </div>
           ))

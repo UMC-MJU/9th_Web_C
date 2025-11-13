@@ -1,5 +1,5 @@
 import type { PaginationDto } from "../types/common";
-import type { CreateLp, LpDetail } from "../types/lp";
+import type { RequestCreateLp, LpDetail, RequestPostComment, ResponsePostComment, ResponseCreateLp } from "../types/lp";
 import { axiosInstance } from "./axiosInstance";
 
 export const getLpList = async (paginationDto: PaginationDto) => {
@@ -25,7 +25,12 @@ export const getCommentList = async (
   return data;
 };
 
-export const postLp = async (body: CreateLp) => {
+export const postLp = async (body: RequestCreateLp) :Promise<ResponseCreateLp> => {
   const { data } = await axiosInstance.post("/v1/lps", body);
-  return data;
+  return data.data;
 };
+
+export const postLpComment = async (body:RequestPostComment) : Promise<ResponsePostComment> => {
+  const {data} = await axiosInstance.post(`/v1/lps/${body.lpId}/comments`, body);
+  return data.data;
+}

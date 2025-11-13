@@ -29,7 +29,7 @@ export const Navbar = ({ onToggleSidebar, isSidebarOpen } : NavbarProps) => {
 
   return (
     <div className="relative">
-      <div className="flex justify-between gap-3 p-3 bg-gray-200 h-14">
+      <div className="fixed top-0 left-0 right-0 z-999 flex justify-between gap-3 p-3 bg-gray-200 h-14 shadow-sm">
         <div className="flex items-center"
           onClick={onToggleSidebar}>
           <svg width="35" height="35" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
@@ -40,7 +40,7 @@ export const Navbar = ({ onToggleSidebar, isSidebarOpen } : NavbarProps) => {
           <div className="flex items-center justify-center gap-4">
             <p className="font-semibold text-[15px]">{userName}님 반갑습니다.</p>
             <NavLink
-              className="flex items-center justify-center w-20 h-8 bg-gray-600 
+              className="flex items-center justify-center w-20 h-8 bg-gray-700 
               rounded-2xl text-white font-semibold text-sm"
               to="/login"
             >
@@ -57,7 +57,7 @@ export const Navbar = ({ onToggleSidebar, isSidebarOpen } : NavbarProps) => {
               로그인
             </NavLink>
             <NavLink
-              className="flex items-center justify-center w-20 h-8 bg-blue-300 
+              className="flex items-center justify-center w-20 h-8 bg-blue-400 
               rounded-2xl text-white font-semibold text-sm"
               to="/signup"
             >
@@ -66,7 +66,7 @@ export const Navbar = ({ onToggleSidebar, isSidebarOpen } : NavbarProps) => {
           </div>
         )}
       </div>
-      <div className="transition-all duration-300 ease-in-out
+      <div className="fixed top-14 left-0 z-999 transition-all duration-300 ease-in-out
             md:translate-x-0 md:opacity-100
             -translate-x-full opacity-0">
         <Sidebar isOpen={isSidebarOpen} onClose={onToggleSidebar} />

@@ -10,7 +10,7 @@ export const FloatingButton = () => {
     </div>
     <div>
       <button 
-      className="fixed bottom-8 right-8 w-[80px] h-[80px] pb-2
+      className="fixed bottom-8 right-8 w-20 h-20 pb-2
       bg-blue-500 rounded-full font-light text-6xl text-white z-999 hover:bg-blue-400"
       onClick={() => setIsOpen(true)}>
         <span>+</span>

@@ -64,7 +64,7 @@ export default function MainPage() {
         <button
           onClick={() => setOrder("oldest")}
           className={`px-3 py-2 rounded-xl ${order === "oldest"
-            ? "bg-blue-300 text-white"
+            ? "bg-blue-400 text-white"
             : "bg-gray-600 text-white hover:bg-gray-600"
             }`}
         >
@@ -73,7 +73,7 @@ export default function MainPage() {
         <button
           onClick={() => setOrder("newest")}
           className={`px-3 py-1 rounded-xl ${order === "newest"
-            ? "bg-blue-300 text-white"
+            ? "bg-blue-400 text-white"
             : "bg-gray-700 text-white hover:bg-gray-600"
             }`}
         >
