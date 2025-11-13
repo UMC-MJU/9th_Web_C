@@ -2,9 +2,10 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import record from '../../assets/lp-record.png'
 import { useForm } from 'react-hook-form';
 import { postLp } from '../../apis/lp';
-import type { CreateLp } from '../../types/lp';
+import type { RequestCreateLp } from '../../types/lp';
 import { uploadImagePublic } from '../../apis/image';
 import { useTags } from '../../hooks/useTag';
+import { QUERY_KEY } from '../../constants/key';
 
 type LpRegisterModalProps = {
   onClose: () => void;
@@ -32,9 +33,9 @@ export const LpRegisterModal = ({onClose}: LpRegisterModalProps) => {
   });
 
   const { mutate } = useMutation({
-    mutationFn: (LpData : CreateLp) => postLp(LpData),
+    mutationFn: (LpData : RequestCreateLp) => postLp(LpData),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["lpList"] });
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEY.lps] });
       reset();
       resetTags();
       onClose();
@@ -53,7 +54,7 @@ export const LpRegisterModal = ({onClose}: LpRegisterModalProps) => {
         thumbnailUrl = await uploadImagePublic(file);
       }
 
-      const LpData: CreateLp = {
+      const LpData: RequestCreateLp = {
         title: data.title,
         content: data.content,
         thumbnail: thumbnailUrl,
