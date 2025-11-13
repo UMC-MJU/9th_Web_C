@@ -66,3 +66,11 @@ export type LpComment = CursorBasedResponse<{
     author : Author;
   }
 }>
+
+export type CreateLp = {
+  title: string;
+  content: string;
+  thumbnail: string;
+  tags: string[];
+  published: boolean;
+}
