@@ -1,8 +1,7 @@
 import { createContext, useState, useEffect, type PropsWithChildren } from "react";
-import type { RequestSigninDto } from "../types/auth";
 import { useLocalStorage } from "../hooks/useLocalStorage";
 import { LOCAL_STORAGE_KEY } from "../constants/key";
-import { postSignin, getMyInfo } from "../apis/auth";
+import { getMyInfo } from "../apis/auth";
 
 interface UserInfo {
   id: number;
@@ -15,7 +14,9 @@ interface AuthContextType {
   accessToken: string | null;
   refreshToken: string | null;
   user: UserInfo | null;
-  login: (signInData: RequestSigninDto) => Promise<void>;
+  setAccessToken: (token: string | null) => void;
+  setRefreshToken: (token: string | null) => void;
+  setUser: (user: UserInfo | null) => void;
   logout: () => void;
 }
 
@@ -23,7 +24,9 @@ export const AuthContext = createContext<AuthContextType>({
   accessToken: null,
   refreshToken: null,
   user: null,
-  login: async () => {},
+  setAccessToken: () => {},
+  setRefreshToken: () => {},
+  setUser: () => {},
   logout: () => {},
 });
 
@@ -48,29 +51,6 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
   );
   const [user, setUser] = useState<UserInfo | null>(null);
 
-  //로그인 함수
-  const login = async (signInData: RequestSigninDto) => {
-    try {
-      const { data } = await postSignin(signInData);
-
-      if (data) {
-        const newAccessToken: string = data.accessToken;
-        const newRefreshToken: string = data.refreshToken;
-
-        setAccessTokenFromStorage(newAccessToken);
-        setRefreshTokenFromStorage(newRefreshToken);
-        setAccessToken(newAccessToken);
-        setRefreshToken(newRefreshToken);
-
-        //로그인 직후 내 정보 불러오기
-        const myInfo = await getMyInfo();
-        setUser(myInfo.data);
-      }
-    } catch (error) {
-      console.error("로그인 실패:", error);
-    }
-  };
-
   useEffect(() => {
     if (accessToken) {
       getMyInfo()
@@ -93,7 +73,15 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
         accessToken,
         refreshToken,
         user,
-        login,
+        setAccessToken: (token) => {
+          setAccessToken(token);
+          token ? setAccessTokenFromStorage(token) : removeAccessTokenFromStorage();
+        },
+        setRefreshToken: (token) => {
+          setRefreshToken(token);
+          token ? setRefreshTokenFromStorage(token) : removeRefreshTokenFromStorage();
+        },
+        setUser,
         logout,
       }}
     >

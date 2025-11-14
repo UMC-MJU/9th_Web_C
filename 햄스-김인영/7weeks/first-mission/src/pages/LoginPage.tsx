@@ -1,13 +1,12 @@
 import type { UserSigninInformation } from "../utils/validate"
 import { validateSignin } from "../utils/validate"
 import { useForm } from "../hooks/useForm"
-import { useContext } from "react"
-import { AuthContext } from "../context/AuthContext"
 import { useLocation, useNavigate } from "react-router-dom"
 import logo from '../assets/google-logo.svg'
+import { useLogin } from "../hooks/queries/useLogin"
 
 export const LoginPage = () => {
-  const {login} = useContext(AuthContext);
+  const { mutate: login } = useLogin();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -22,17 +21,11 @@ export const LoginPage = () => {
   }
   )
 
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault(); // 새로고침 방지
-    try {
-      await login(values);
-      console.log("로그인 성공:", values);
-      alert("로그인 성공!");
-      navigate(from, { replace: true });
-    } catch (error) {
-      console.error("로그인 실패:", error);
-    }
+   const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    login(values, {
+      onSuccess: () => navigate(from, { replace: true }),
+    });
   };
 
   const handleGoggleLogin = () => {
@@ -50,12 +43,12 @@ export const LoginPage = () => {
           로그인
         </h2>
         <button
-          className="border-1 border-gray-500 rounded-lg focus:outline-none p-3 w-full text-sm text-gray-500 font-semibold mt-[15px]"
+          className="border border-gray-500 rounded-lg focus:outline-none p-3 w-full text-sm text-gray-500 font-semibold mt-[15px]"
           type="button"
           onClick={handleGoggleLogin}
         >
-          <div className="flex justify-center items-center gap-[10px]">
-            <img src={logo} className="w-[20px]"/>
+          <div className="flex justify-center items-center gap-2.5">
+            <img src={logo} className="w-5"/>
             <span>
               구글 로그인
             </span>

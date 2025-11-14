@@ -1,19 +1,24 @@
-import { getMyInfo } from "../apis/auth";
+import { useContext } from "react";
+import { AuthContext } from "../context/AuthContext";
+import { useQueryClient } from "@tanstack/react-query";
 
 export const MyPage = () => {
-  const handleCheck = async () => {
-    try {
-      const data = await getMyInfo();
-      console.log("내 정보:", data);
-    } catch (error) {
-      console.error("에러 발생:", error);
-    }
-  };
+  const { user } = useContext(AuthContext);
+  const queryClient = useQueryClient();
+
+  
+
+  
 
   return (
     <div>
-      <h1>My Page</h1>
-      <button onClick={handleCheck}>내 정보 불러오기</button>
+      <img
+        src={user?.avatar || "/default-profile.png"}
+        alt={user?.name || "작성자"}
+        className="w-40 h-40 rounded-full border border-gray-600 object-cover mt-1.5"
+      />
+      <div>{user?.name}</div>
+      <div>{user?.email}</div>
     </div>
   );
 };
