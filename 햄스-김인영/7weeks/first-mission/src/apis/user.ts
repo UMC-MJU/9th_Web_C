@@ -6,3 +6,8 @@ export const patchUsers = async (formData: FormData) => {
   });
   return data;
 };
+
+export const deleteUsers = async () => {
+  const {data} = await axiosInstance.delete("/v1/users");
+  return data;
+}

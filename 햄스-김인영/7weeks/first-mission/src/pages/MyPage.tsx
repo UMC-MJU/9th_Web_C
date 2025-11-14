@@ -51,7 +51,7 @@ export const MyPage = () => {
             src={
               avatar
                 ? URL.createObjectURL(avatar)
-                : user?.data.avatar || "/default-profile.png"
+                : user?.data?.avatar || "/default-profile.png"
             }
             alt="프로필 이미지"
             className="w-32 h-32 rounded-full border border-gray-400 object-cover"
@@ -77,7 +77,7 @@ export const MyPage = () => {
           <p className="text-lg font-semibold">{name}</p>
         )}
 
-        <p className="text-gray-600 text-sm">{user?.data.email}</p>
+        <p className="text-gray-600 text-sm">{user?.data?.email}</p>
 
         {isEditMode ? (
           <textarea

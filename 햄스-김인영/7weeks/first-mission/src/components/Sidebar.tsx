@@ -1,6 +1,9 @@
+import { useState } from "react";
 import { NavLink } from "react-router-dom"
+import { UserDeleteModal } from "./Modal/userDeleteModal";
 
 export const Sidebar = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) => {
+  const [isModalOpen,setIsModalOpen] = useState<boolean>(false);
   return (
     <>
       <div onClick={onClose} className={`
@@ -15,6 +18,8 @@ export const Sidebar = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => v
         <div className="flex flex-col items-start gap-4 p-5">
           <div className="border-b border-gray-500 pb-2 w-full">검색</div>
           <NavLink to="/mypage">마이페이지</NavLink>
+          <div onClick={() => setIsModalOpen(true)}>탈퇴하기</div>
+          {isModalOpen && <UserDeleteModal onClose={() => setIsModalOpen(false)} />}
         </div>
       </div>
     </>
