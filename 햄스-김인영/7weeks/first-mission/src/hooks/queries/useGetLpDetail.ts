@@ -5,7 +5,7 @@ import type { LpDetail } from "../../types/lp";
 
 export const useGetLpDetail = (lpid: number) => {
   return useQuery<LpDetail>({
-    queryKey: [QUERY_KEY.lps, lpid],
+    queryKey: [QUERY_KEY.lpDetail, lpid],
     queryFn: () => getLpDetail(lpid),
 
     staleTime: 1000 * 60 * 3,

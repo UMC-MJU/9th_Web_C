@@ -19,10 +19,12 @@ export function useTags(initialTags: string[] = []) {
   };
 
   //태그 초기화
-  const resetTags = () => {
-    setTags([]);
+  const resetTags = (newTags: string[]) => {
+    setTags(newTags);
     setInput("");
   };
+
+  
 
   return {
     tags,

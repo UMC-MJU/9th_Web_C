@@ -102,3 +102,17 @@ export type RequestPostComment = {
   lpId: number;
   content: string;
 }
+
+export type ResponseLpDetail = CommonResponse<{
+  data : {
+    id: number;
+    title: string;
+    content: string;
+    thumbnail: string;
+    published: boolean;
+    authorId: number;
+    createdAt: string;
+    updatedAt: string;
+    tags: Tag[];
+  }
+}>

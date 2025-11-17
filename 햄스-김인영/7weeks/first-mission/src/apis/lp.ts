@@ -1,5 +1,5 @@
-import type { PaginationDto } from "../types/common";
-import type { RequestCreateLp, LpDetail, RequestPostComment, ResponsePostComment, ResponseCreateLp } from "../types/lp";
+import type { CommonResponse, PaginationDto } from "../types/common";
+import type { RequestCreateLp, LpDetail, RequestPostComment, ResponsePostComment, ResponseCreateLp, ResponseLpDetail } from "../types/lp";
 import { axiosInstance } from "./axiosInstance";
 import type { ResponseDeleteComment, ResponsePatchComment } from "../types/comments";
 
@@ -50,5 +50,18 @@ export const deleteLpComment = async (
   commentId: number
 ): Promise<ResponseDeleteComment> => {
   const { data } = await axiosInstance.delete(`/v1/lps/${lpId}/comments/${commentId}`);
+  return data.data;
+}
+
+export const patchLpDetail = async (
+  lpId: number,
+  body: RequestCreateLp
+): Promise<ResponseLpDetail> => {
+  const { data } = await axiosInstance.patch(`/v1/lps/${lpId}`, body);
+  return data.data;
+}
+
+export const deleteLp = async (lpId:number) : Promise<CommonResponse<boolean>> => {
+  const {data} = await axiosInstance.delete(`/v1/lps/${lpId}`);
   return data.data;
 }
