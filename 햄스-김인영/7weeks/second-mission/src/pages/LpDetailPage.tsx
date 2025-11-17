@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useParams } from "react-router-dom";
 import { useGetLpDetail } from "../hooks/queries/useGetLpDetail";
 import { LoadingSpinner } from "../components/LoadingSpinner";
@@ -10,10 +10,14 @@ import { useDeleteLp } from "../hooks/queries/useDeleteLp";
 import type { RequestCreateLp } from "../types/lp";
 import { uploadImagePublic } from "../apis/image";
 import { useTags } from "../hooks/useTag";
+import { AuthContext } from "../context/AuthContext";
+import { useToggleLike } from "../hooks/useToggleLikes";
 
 export const LpDetailPage = () => {
   const { lpid } = useParams<{ lpid: string }>();
   const numberId = Number(lpid);
+
+  const { user } = useContext(AuthContext);
 
   const { data: lp, isLoading, isError, refetch } = useGetLpDetail(numberId);
   const { mutate: patchLpDetail } = usePatchLpDetail(numberId);
@@ -25,6 +29,12 @@ export const LpDetailPage = () => {
   // 수정 상태
   const [content, setContent] = useState("");
   const [thumbnail, setThumbnail] = useState<File | null>(null);
+
+  // 좋아요 상태 계산
+  const isLiked = lp?.likes?.some((like) => like.userId === user?.id) ?? false;
+
+  // 좋아요 훅 적용
+  const { mutate: toggleLike } = useToggleLike(numberId, isLiked);
 
   // lp 로딩 후 초기값 세팅
   useEffect(() => {
@@ -214,8 +224,10 @@ export const LpDetailPage = () => {
         {/* 좋아요 */}
         {!isEditMode && (
           <div className="flex items-center gap-2">
-            <button className="text-pink-600 text-lg hover:scale-120 transition">
-              ♡
+            <button 
+            onClick={() => toggleLike()}
+            className="text-pink-600 text-lg hover:scale-120 transition">
+              {isLiked ? "♥" : "♡"}
             </button>
             <span className="text-white">{lp.likes?.length || 0}</span>
           </div>

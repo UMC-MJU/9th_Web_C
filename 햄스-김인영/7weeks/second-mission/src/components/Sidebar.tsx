@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { NavLink } from "react-router-dom"
-import { UserDeleteModal } from "./Modal/userDeleteModal";
+import { UserDeleteModal } from "./Modal/UserDeleteModal";
 
 export const Sidebar = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) => {
   const [isModalOpen,setIsModalOpen] = useState<boolean>(false);
