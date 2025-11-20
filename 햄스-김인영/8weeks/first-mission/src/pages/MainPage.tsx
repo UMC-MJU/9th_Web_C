@@ -47,20 +47,7 @@ export default function MainPage() {
     return () => observer.disconnect();
   }, [fetchNextPage, hasNextPage, isFetchingNextPage]);
 
-  if (isLoading) {
-    return (
-      <div className="h-full flex justify-center items-center">
-        <LoadingSpinner />
-      </div>
-    );
-  }
-  if (isError || !data) {
-    return (
-      <IsError refetch={refetch} />
-    )
-  }
-
-  const lpList = data.pages.flatMap((page) => page.data.data);
+  const lpList = data?.pages.flatMap((page) => page.data.data);
 
   return (
     <div className="relative w-full">
@@ -93,10 +80,17 @@ export default function MainPage() {
         </button>
       </div>
 
-      <div className="flex flex-wrap gap-2 justify-center mt-17 mb-5">
-        {lpList.map((lp: any) => <LpCard key={lp.id} lp={lp} />)}
-        {isFetchingNextPage && <LpCardSkeletonList count={5} />}
-      </div>
+      {isLoading ? (
+        <div className="h-full flex justify-center items-center">
+          <LoadingSpinner />
+        </div>) : isError || !data ? (
+          <IsError refetch={refetch} />
+        ) : (
+        <div className="flex flex-wrap gap-2 justify-center mt-17 mb-5">
+          {lpList?.map((lp: any) => <LpCard key={lp.id} lp={lp} />)}
+          {isFetchingNextPage && <LpCardSkeletonList count={5} />}
+        </div>
+      )}
 
       <div ref={sentinelRef} style={{ height: 1 }} />
 
