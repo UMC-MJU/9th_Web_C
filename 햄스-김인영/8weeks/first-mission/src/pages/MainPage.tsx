@@ -6,6 +6,7 @@ import LpCardSkeletonList from "../components/LpCard/LpCardSkeletonList";
 import useGetInfiniteLpList from "../hooks/queries/useGetInfiniteLpList";
 import { useDebounce } from "../hooks/useDebounce";
 import searchIcon from "../assets/search.png";
+import useSearchInfiniteLpList from "../hooks/queries/useSearchInfiniteLpList";
 
 export default function MainPage() {
   const [order, setOrder] = useState<"newest" | "oldest">("newest");
@@ -13,8 +14,28 @@ export default function MainPage() {
 
   const debouncedValue = useDebounce(search, 500);
 
+  const isSearchActive = debouncedValue.trim().length > 0;
+
   const orderButton =
     order === "newest" ? "asc" : "desc";
+
+  //기본 전체 리스트
+  const defaultQuery = useGetInfiniteLpList({
+    limit: 15,
+    search: "",
+    order: orderButton,
+  });
+
+  //검색 리스트
+  const searchQuery = useSearchInfiniteLpList({
+    limit: 15,
+    search: debouncedValue,
+    order: orderButton,
+    enabled: isSearchActive,
+  });
+
+  //현재 적용될 쿼리 선택
+  const activeQuery = isSearchActive ? searchQuery : defaultQuery;
 
   const {
     data,
@@ -24,11 +45,7 @@ export default function MainPage() {
     hasNextPage,
     isFetchingNextPage,
     refetch,
-  } = useGetInfiniteLpList({
-    limit: 15,
-    search: debouncedValue,
-    order: orderButton,
-  });
+  } = activeQuery;
 
   const sentinelRef = useRef<HTMLDivElement | null>(null);
 
