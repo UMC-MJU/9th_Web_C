@@ -4,9 +4,14 @@ import { IsError } from "../components/IsError";
 import { LpCard } from "../components/LpCard/LpCard";
 import LpCardSkeletonList from "../components/LpCard/LpCardSkeletonList";
 import useGetInfiniteLpList from "../hooks/queries/useGetInfiniteLpList";
+import { useDebounce } from "../hooks/useDebounce";
+import searchIcon from "../assets/search.png";
 
 export default function MainPage() {
   const [order, setOrder] = useState<"newest" | "oldest">("newest");
+  const [search, setSearch] = useState("");
+
+  const debouncedValue = useDebounce(search, 500);
 
   const orderButton =
     order === "newest" ? "asc" : "desc";
@@ -21,7 +26,7 @@ export default function MainPage() {
     refetch,
   } = useGetInfiniteLpList({
     limit: 15,
-    search: "",
+    search: debouncedValue,
     order: orderButton,
   });
 
@@ -58,8 +63,15 @@ export default function MainPage() {
   const lpList = data.pages.flatMap((page) => page.data.data);
 
   return (
-    <div className="relative">
-      <div className="absolute top-1 right-1 m-4 mr-5 gap-2 text-sm text-white font-semibold
+    <div className="relative w-full">
+      <div className="flex items-center gap-2 absolute top-1 left-1 m-4 ml-5">
+        <img src= {searchIcon} className="w-6 h-6"/>
+        <input 
+        value={search} 
+        className="w-70 h-8 border rounded-sm pl-3"
+        onChange={(e) => setSearch(e.target.value)}/>
+      </div>
+      <div className="absolute top-1 right-1 m-3 mr-5 gap-2 text-sm text-white font-semibold
         disabled:cursor-not-allowed">
         <button
           onClick={() => setOrder("oldest")}
