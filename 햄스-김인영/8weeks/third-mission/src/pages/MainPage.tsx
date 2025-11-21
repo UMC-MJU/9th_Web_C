@@ -7,6 +7,7 @@ import useGetInfiniteLpList from "../hooks/queries/useGetInfiniteLpList";
 import { useDebounce } from "../hooks/useDebounce";
 import searchIcon from "../assets/search.png";
 import useSearchInfiniteLpList from "../hooks/queries/useSearchInfiniteLpList";
+import { useThrottle } from "../hooks/useThrottle";
 
 export default function MainPage() {
   const [order, setOrder] = useState<"newest" | "oldest">("newest");
@@ -47,6 +48,13 @@ export default function MainPage() {
     refetch,
   } = activeQuery;
 
+  const throttledFetchNextPage = useThrottle(() => {
+  if (hasNextPage && !isFetchingNextPage) {
+    fetchNextPage();
+  }
+}, 800); // 0.8초 동안 1번만 실행
+
+
   const sentinelRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
@@ -55,14 +63,14 @@ export default function MainPage() {
 
     const observer = new IntersectionObserver((entries) => {
       const first = entries[0];
-      if (first.isIntersecting && hasNextPage && !isFetchingNextPage) {
-        fetchNextPage();
+      if (first.isIntersecting) {
+        throttledFetchNextPage();
       }
     });
 
     observer.observe(sentinel);
     return () => observer.disconnect();
-  }, [fetchNextPage, hasNextPage, isFetchingNextPage]);
+  }, [throttledFetchNextPage]);
 
   const lpList = data?.pages.flatMap((page) => page.data.data);
 
