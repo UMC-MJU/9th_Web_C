@@ -3,7 +3,7 @@ import { validateSignin } from "../utils/validate"
 import { useForm } from "../hooks/useForm"
 import { useLocation, useNavigate } from "react-router-dom"
 import logo from '../assets/google-logo.svg'
-import { useLogin } from "../hooks/queries/useLogin"
+import { useLogin } from "../hooks/mutations/useLogin"
 
 export const LoginPage = () => {
   const { mutate: login } = useLogin();

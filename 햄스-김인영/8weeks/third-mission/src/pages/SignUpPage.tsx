@@ -1,9 +1,9 @@
 import {z} from "zod";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
-import { InputEmail } from "../components/InputEmail";
-import { InputPassword } from "../components/InputPassword";
-import { InputName } from "../components/InputName";
+import { InputEmail } from "../components/Input/InputEmail";
+import { InputPassword } from "../components/Input/InputPassword";
+import { InputName } from "../components/Input/InputName";
 import { useState } from "react";
 import { postSignup } from "../apis/auth";
 import { useNavigate } from "react-router-dom";

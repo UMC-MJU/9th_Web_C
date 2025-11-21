@@ -1,5 +1,5 @@
 import { useState } from "react";
-import type { InputProps } from "../types/input"
+import type { InputProps } from "../../types/input"
 
 export const InputEmail = ({ register, errors, setState }: InputProps) => {
   /*에러 메세지를 통해 버튼 비활성화 구현을 시도해보니

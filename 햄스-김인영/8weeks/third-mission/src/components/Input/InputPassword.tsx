@@ -1,5 +1,5 @@
 import { useState } from "react";
-import type { InputProps } from "../types/input"
+import type { InputProps } from "../../types/input"
 
 export const InputPassword = ({register, errors, setState}: InputProps) => {
   const [touched, setTouched] = useState(false);

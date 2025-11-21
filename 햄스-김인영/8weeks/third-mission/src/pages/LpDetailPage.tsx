@@ -5,13 +5,13 @@ import { LoadingSpinner } from "../components/LoadingSpinner";
 import pencil from "../assets/pencil.png";
 import trash from "../assets/trash-can.png";
 import { IsError } from "../components/IsError";
-import { usePatchLpDetail } from "../hooks/queries/usePatchLpDetail";
-import { useDeleteLp } from "../hooks/queries/useDeleteLp";
+import { usePatchLpDetail } from "../hooks/mutations/usePatchLpDetail";
+import { useDeleteLp } from "../hooks/mutations/useDeleteLp";
 import type { RequestCreateLp } from "../types/lp";
 import { uploadImagePublic } from "../apis/image";
 import { useTags } from "../hooks/useTag";
 import { AuthContext } from "../context/AuthContext";
-import { useToggleLike } from "../hooks/useToggleLikes";
+import { useToggleLike } from "../hooks/mutations/useToggleLikes";
 
 export const LpDetailPage = () => {
   const { lpid } = useParams<{ lpid: string }>();

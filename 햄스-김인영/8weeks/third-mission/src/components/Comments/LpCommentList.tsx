@@ -2,10 +2,10 @@ import { useRef, useEffect, useState, useContext } from "react";
 import useGetCommentList from "../../hooks/queries/useGetCommentList";
 import CommentSkeleton from "./CommentSkeleton";
 import { useParams } from "react-router-dom";
-import { usePostComment } from "../../hooks/queries/usePostComment";
+import { usePostComment } from "../../hooks/mutations/usePostComment";
 import { AuthContext } from "../../context/AuthContext";
 import { usePatchComment } from "../../hooks/queries/usePatchComment";
-import { useDeleteComment } from "../../hooks/queries/useDeleteComment";
+import { useDeleteComment } from "../../hooks/mutations/useDeleteComment";
 import pencil from '../../assets/pencil.png'
 import trash from '../../assets/trash-can.png'
 

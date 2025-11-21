@@ -1,4 +1,4 @@
-import type { InputProps } from "../types/input"
+import type { InputProps } from "../../types/input"
 
 export const InputName = ({register, errors, isValid, handleSubmit, onSubmit}: InputProps) => {
 

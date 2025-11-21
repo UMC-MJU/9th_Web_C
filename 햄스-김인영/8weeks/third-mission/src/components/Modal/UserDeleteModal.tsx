@@ -1,5 +1,5 @@
 import { createPortal } from "react-dom";
-import { useDeleteUsers } from "../../hooks/queries/useDeleteUsers";
+import { useDeleteUsers } from "../../hooks/mutations/useDeleteUsers";
 
 type userDeleteModalProps = {
   onClose: () => void;

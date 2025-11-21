@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { QUERY_KEY } from "../constants/key";
-import { deleteLike, postLike } from "../apis/likes";
+import { QUERY_KEY } from "../../constants/key";
+import { deleteLike, postLike } from "../../apis/likes";
 
 export const useToggleLike = (lpId: number, isLiked: boolean) => {
   const queryClient = useQueryClient();
