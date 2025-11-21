@@ -1,15 +1,13 @@
-import { NavLink } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 import { useContext, useEffect, useState } from "react";
-import { Sidebar } from "./Sidebar";
 import { getMyInfo } from "../apis/auth";
+import { NavLink } from "react-router-dom";
 
-type NavbarProps = {
-  onToggleSidebar: () => void,
-  isSidebarOpen: boolean,
+interface NavbarProps {
+  toggle: () => void;
 }
 
-export const Navbar = ({ onToggleSidebar, isSidebarOpen } : NavbarProps) => {
+export const Navbar = ({toggle}: NavbarProps) => {
   const { accessToken } = useContext(AuthContext);
   const [userName, setUserName] = useState<string | null>(null);
 
@@ -31,7 +29,7 @@ export const Navbar = ({ onToggleSidebar, isSidebarOpen } : NavbarProps) => {
     <div className="relative">
       <div className="fixed top-0 left-0 right-0 z-999 flex justify-between gap-3 p-3 bg-gray-200 h-14 shadow-sm">
         <div className="flex items-center"
-          onClick={onToggleSidebar}>
+          onClick={toggle}>
           <svg width="35" height="35" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
             <path fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="4" d="M7.95 11.95h32m-32 12h32m-32 12h32" />
           </svg>
@@ -69,7 +67,6 @@ export const Navbar = ({ onToggleSidebar, isSidebarOpen } : NavbarProps) => {
       <div className="fixed top-14 left-0 z-999 transition-all duration-300 ease-in-out
             md:translate-x-0 md:opacity-100
             -translate-x-full opacity-0">
-        <Sidebar isOpen={isSidebarOpen} onClose={onToggleSidebar} />
       </div>
     </div>
   )
