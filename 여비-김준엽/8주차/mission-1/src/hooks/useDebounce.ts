@@ -1,7 +1,7 @@
 import {useEffect , useState} from "react";
 
 function useDebounce<T>(value:T, delay:number){
-    const [debouncedValue, setDebouncedValue:React.Dispatch] = useState<T>(value)
+    const [debouncedValue, setDebouncedValue] = useState<T>(value)
 
     //value나 delay가 바뀔 때마다 실행
     useEffect(() => {
