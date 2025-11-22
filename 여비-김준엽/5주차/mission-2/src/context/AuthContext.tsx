@@ -1,0 +1,97 @@
+import type { RequestSigninDto } from "../types/auth";
+import { createContext, useContext, useState } from "react";
+import type { PropsWithChildren } from "react";
+import { useLocalStorage } from "../hooks/useLocalStorage";
+import { LOCAL_STORAGE_KEY } from "../constants/key";
+import { postSignin, postLogout } from "../apis/auth";
+
+interface AuthContextType {
+    accessToken: string | null;
+    refreshToken: string | null;
+    // 로그인: 사용자 입력(Signin DTO)으로 처리
+    login: (signinData: RequestSigninDto) => Promise<void>;
+    // 로그아웃: 토큰 삭제 및 서버 통신
+    logout: () => Promise<void>;
+}
+
+export const AuthContext = createContext<AuthContextType>({
+    accessToken: null,
+    refreshToken: null,
+    login: async () => {},
+    logout: async () => {},
+});
+
+export const AuthProvider = ({children}: PropsWithChildren) => {
+
+    const{
+        getItem:getAccesTokenFromStorage,
+        setItem:setAccesTokenToStorage,
+        removeItem:removeAccesTokenFromStorage,
+    } = useLocalStorage(LOCAL_STORAGE_KEY.accessToken);
+
+    const{
+        getItem:getRefreshTokenFromStorage,
+        setItem:setRefreshTokenToStorage,
+        removeItem:removeRefreshTokenFromStorage,
+    } = useLocalStorage(LOCAL_STORAGE_KEY.refreshToken);
+
+    const [accessToken, setAccessToken] = useState<string | null>(
+        getAccesTokenFromStorage(),
+    );
+    const [refreshToken, setRefreshToken] = useState<string | null>(
+        getRefreshTokenFromStorage(),
+    );
+    //로그인 함수
+    const login = async (signinData: RequestSigninDto) => {
+        try{
+         const signinResponse = await postSignin(signinData);
+
+         if(signinResponse){
+            const newAccessToken = signinResponse.data.accessToken;
+            const newRefreshToken = signinResponse.data.refreshToken;
+
+            setAccesTokenToStorage(newAccessToken);
+            setRefreshTokenToStorage(newRefreshToken);
+
+            setAccessToken(newAccessToken);
+            setRefreshToken(newRefreshToken);
+            alert("로그인 성공");
+            window.location.href = "/my";
+         }
+        } catch (error) {
+        console.error("로그인 오류",error);
+        alert("로그인 실패.");
+        }
+    };
+    const logout = async () => {
+        try{
+            await postLogout();
+            removeAccesTokenFromStorage();
+            removeRefreshTokenFromStorage();
+
+            setAccessToken(null);
+            setRefreshToken(null);
+
+            alert("로그아웃 성공");
+            // 한글 주석: 로그아웃 후 메인 페이지로 이동
+            window.location.href = "/";
+        }catch (error) {
+            console.error("로그아웃 오류",error);
+            alert("로그아웃 실패");
+        }
+    };
+
+    return (
+        <AuthContext.Provider value={{accessToken, refreshToken, login, logout}}>
+            {children}
+        </AuthContext.Provider>
+    );
+};
+
+export const useAuth = () => {
+    const context =useContext(AuthContext);
+    if(!context){
+        throw new Error("AuthContext를 찾을 수 없습니다.");
+    }
+    return context;
+};
