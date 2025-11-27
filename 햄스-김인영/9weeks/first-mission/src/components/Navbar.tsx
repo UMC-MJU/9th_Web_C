@@ -1,0 +1,15 @@
+import cart from '../assets/cart.png'
+export const Navbar = () => {
+  return (
+    <div className='flex flex-row bg-gray-800 p-4 justify-between'>
+      <div className='text-white text-3xl font-bold'>Album List</div>
+      <div className='flex flex-row items-center gap-2'>
+        <img 
+        src={cart} 
+        alt='cart'
+        className='w-7'/>
+        <span className='text-white text-xl font-semibold'>12</span>
+      </div>
+    </div>
+  )
+}
