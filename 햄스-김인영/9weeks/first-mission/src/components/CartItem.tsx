@@ -9,7 +9,7 @@ type CartItemProps = {
 export const CartItem = ({ cart }: CartItemProps) => {
   const dispatch = useDispatch();
   const handleIncrease = () => {
-    dispatch(increase({id: cart.id}));
+    dispatch(increase({id: cart.id})); //dispatch를 통해 action을 내보낸다. 
   }
   const handleDecrease = () => {
     if(cart.amount === 1){

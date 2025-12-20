@@ -4,13 +4,13 @@ function createStore() {
   const store = configureStore({
     reducer: {
       cart: cartReducer,
-    },
+    }, //state.cart를 cartReducer가 관리.
   });
 
   return store;
 }
 
-//싱글톤 패턴!
+//싱글톤 패턴! (한 개의 인스턴스)
 const store = createStore();
 export default store;
 

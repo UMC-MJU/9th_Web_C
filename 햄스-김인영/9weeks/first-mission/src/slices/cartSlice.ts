@@ -15,6 +15,7 @@ const initialState: CartState = {
 }
 
 //cartSlice 생성
+//action 만들기!
 //createSlice -> RTK에서 제공
 const cartSlice = createSlice({
   name: 'cart',
@@ -43,6 +44,7 @@ const cartSlice = createSlice({
 
     //removeItem
     removeItem : (state, action: PayloadAction<{id: string}>) => {
+      //payload : 내가 reducer로 전달할 데이터, PayloadAction<T> 타입 정의
       const itemId = action.payload.id;
       //이 아이디로 전체 음반 중에서 내가 클릭한 음반 찾기.
       state.cartItems = state.cartItems.filter((cartItems) => cartItems.id !== itemId);
