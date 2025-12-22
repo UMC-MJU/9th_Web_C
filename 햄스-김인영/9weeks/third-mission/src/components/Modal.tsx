@@ -10,7 +10,7 @@ export const Modal = ({isOpen, onClose, onClearList} : ModalProps) => {
       {
         isOpen && (
           <div className="fixed inset-0 z-50 flex items-center justify-center">
-            <div className="relative z-10 w-[360px] rounded bg-white p-6 shadow-lg">
+            <div className="relative z-10 w-90 rounded bg-white p-6 shadow-lg">
               <h2 className="text-lg font-bold mb-2">확인</h2>
               <p className="text-gray-600 mb-5">
                 장바구니를 정말 비울까요?
