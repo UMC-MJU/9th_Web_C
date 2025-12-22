@@ -1,23 +1,22 @@
-import { useDispatch, useSelector } from "../hooks/useAppDispatch"
-import { clearCart } from "../slices/cartSlice";
-import { closeModal, openModal } from "../slices/modalSlice";
+import { useCartAction, useCartInfo } from "../hooks/useCartStore";
+import { useModalInfo } from "../hooks/useModalStore";
 import { Modal } from "./Modal";
 
 export const ClearList = () => {
-  const {total} = useSelector((state) => state.cart);
-  const isOpen = useSelector((state) => state.modal.isOpen);
-  const dispatch = useDispatch();
+  const {total} = useCartInfo();
+  const {clearCart} = useCartAction();
+  const {isOpen, closeModal, openModal} = useModalInfo();
 
   const handleClearList = () => {
-    dispatch(clearCart());
-    dispatch(closeModal());
+    clearCart();
+    closeModal();
   }
 
   const handleOpen = () => {
-    dispatch(openModal());
+    openModal();
   }
   const handleClose = () => {
-    dispatch(closeModal());
+    closeModal();
   }
 
   return (

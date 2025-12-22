@@ -1,15 +1,15 @@
 import cart from '../assets/cart.png'
-import { calculateTotals, type CartState } from '../slices/cartSlice';
-import { useDispatch, useSelector } from '../hooks/useAppDispatch'
 import { useEffect } from 'react';
+import { useCartAction, useCartInfo } from '../hooks/useCartStore';
 
 export const Navbar = () => {
-  const { amount, cartItems } = useSelector((state): CartState => state.cart);
-  
-  const dispatch = useDispatch();
+  const {amount, cartItems} = useCartInfo();
+  const { calculateTotals } = useCartAction();
+
   useEffect(() => {
-    dispatch(calculateTotals());
-  },[dispatch, cartItems]);
+    calculateTotals()
+  },[cartItems]);
+  
   return (
     <div className='flex flex-row bg-gray-800 p-4 justify-between'>
       <div className='text-white text-3xl font-bold'>Album List</div>

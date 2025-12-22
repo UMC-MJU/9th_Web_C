@@ -1,5 +1,4 @@
-import { useDispatch } from "../hooks/useAppDispatch";
-import { decrease, increase, removeItem } from "../slices/cartSlice";
+import { useCartAction } from "../hooks/useCartStore";
 import type { cart } from "../types/cart"
 
 type CartItemProps = {
@@ -7,16 +6,17 @@ type CartItemProps = {
 }
 
 export const CartItem = ({ cart }: CartItemProps) => {
-  const dispatch = useDispatch();
+  const {increase, decrease, removeItem} = useCartAction();
+
   const handleIncrease = () => {
-    dispatch(increase({id: cart.id})); //dispatch를 통해 action을 내보낸다. 
+    increase(cart.id);
   }
   const handleDecrease = () => {
     if(cart.amount === 1){
-      dispatch(removeItem({id: cart.id}));
+      removeItem(cart.id);
       return;
     }
-    dispatch(decrease({id: cart.id}));
+    decrease(cart.id);
   }
   return (
     <div key={cart.id}
@@ -34,7 +34,7 @@ export const CartItem = ({ cart }: CartItemProps) => {
         <button
           onClick={handleDecrease}
           className="px-3 py-1 bg-gray-300 hover:bg-gray-200 cursor-pointer rounded-l">-</button>
-        <label className="px-4 py-[3px] border-y border-gray-300">{cart.amount}</label>
+        <label className="px-4 py-0.75 border-y border-gray-300">{cart.amount}</label>
         <button
           onClick={handleIncrease}
           className="px-3 py-1 bg-gray-300 hover:bg-gray-200 cursor-pointer rounded-r">+</button>
